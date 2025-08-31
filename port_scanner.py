@@ -18,3 +18,10 @@ def scan_port(ip, port):
         if result ==0:
             print(f"Port {port} is open")
             #Open a log file and append result
+            with open("scan_results.txt", "a") as log:
+                #Format the current time for logging
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                #Write the open port info to the file
+                log.write(f"[{timestamp}] {ip}:{port} is open\n")
+        #Close the socket after scanning
+        sock.close()
