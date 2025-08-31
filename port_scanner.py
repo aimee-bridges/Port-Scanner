@@ -8,28 +8,23 @@ import time
 from datetime import datetime
 
 #Define a function to scan a single port on the target IP
-def scan_port(ip, port):
+def scan_port_with_log(ip, port, open_ports):
     try:
-        #Create TCP socket using IPv4
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #Set a timeout so the scanner doesn't hang on closed ports
         sock.settimeout(1)
-        #Attempt to connect to the target IP and Port
         result = sock.connect_ex((ip, port))
-        #If result = 0, the port is open
-        if result ==0:
-            print(f"Port {port} is open")
-            #Open a log file and append result
+
+        if result == 0:
+            print(f"✅ Port {port} is open")
+            open_ports.append(port)
+
             with open("scan_results.txt", "a") as log:
-                #Format the current time for logging
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                #Write the open port info to the file
                 log.write(f"[{timestamp}] {ip}:{port} is open\n")
-        #Close the socket after scanning
+
         sock.close()
-    #Catch and print any errors that occur during scanning
     except Exception as e:
-        print(f"Error scanning port {port}: {e}")
+        print(f"❌ Error scanning port {port}: {e}")
 #Define the main function to handle user input and start scanning
 def main():
     print("🔍 Simple Port Scanner")
