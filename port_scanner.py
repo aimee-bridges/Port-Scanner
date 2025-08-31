@@ -40,4 +40,11 @@ def main():
     #Display the scan range to the user
     print(f"\nScanning {target_ip} from port {start_port} to {end_port}...\n")
     #Loop through the specified port range
-    
+    for port in range(start_port, end_port + 1):
+        #Create a new thread per individual port scan
+        thread = threading.Thread(target=scan_port, args=(target_ip, port))
+        #Start the thread(non-blocking)
+        thread.start()
+#Run main function only if script is executed directly
+if __name__ == "__main__":
+    main()
