@@ -11,3 +11,10 @@ def scan_port(ip, port):
         #Create TCP socket using IPv4
         sock = socket.scoket(socket.AF_INET, socket.SOCK_STREAM)
         #Set a timeout so the scanner doesn't hang on closed ports
+        sock.settimeout(1)
+        #Attempt to connect to the target IP and Port
+        result = sock.connect_ex((ip, port))
+        #If result = 0, the port is open
+        if result ==0:
+            print(f"Port {port} is open")
+            #Open a log file and append result
