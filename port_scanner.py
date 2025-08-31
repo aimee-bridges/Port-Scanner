@@ -28,5 +28,16 @@ def scan_port(ip, port):
     #Catch and print any errors that occur during scanning
     except Exception as e:
         print(f"Error scanning port {port}: {e}")
-    #Define the main function to handle user input and start scanning
+#Define the main function to handle user input and start scanning
+def main():
+    print("Simple Port Scanner")
+    #Ask the user for target IP address
+    target_ip = input("Enter IP address to scan: ")
+    #Ask the user for the starting port number
+    start_port = int(input("Enter start port: "))
+    #Ask the user for end port number
+    end_port = int(input("Enter start port: "))
+    #Display the scan range to the user
+    print(f"\nScanning {target_ip} from port {start_port} to {end_port}...\n")
+    #Loop through the specified port range
     
