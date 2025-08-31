@@ -9,7 +9,7 @@ from datetime import datetime
 def scan_port(ip, port):
     try:
         #Create TCP socket using IPv4
-        sock = socket.scoket(socket.AF_INET, socket.SOCK_STREAM)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #Set a timeout so the scanner doesn't hang on closed ports
         sock.settimeout(1)
         #Attempt to connect to the target IP and Port
