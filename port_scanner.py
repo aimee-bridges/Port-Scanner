@@ -9,7 +9,8 @@ from datetime import datetime
 
 # ⏱️ Import time to measure how long the scan takes
 import time
-
+#Import port dictonary from services.py
+from services import PORT_SERVICES
 # 🔍 Define a function to scan a single port and log results
 def scan_port_with_log(ip, port, open_ports):
     try:
@@ -21,7 +22,8 @@ def scan_port_with_log(ip, port, open_ports):
 
         # Attempt to connect to the target IP and port
         result = sock.connect_ex((ip, port))
-
+        # Map the port to its service name if it exists
+        service_name = PORT_SERVICES.get(port, "Unknown")
         # If result is 0, the port is open
         if result == 0:
             # Print open port to terminal
