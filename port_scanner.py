@@ -25,3 +25,8 @@ def scan_port(ip, port):
                 log.write(f"[{timestamp}] {ip}:{port} is open\n")
         #Close the socket after scanning
         sock.close()
+    #Catch and print any errors that occur during scanning
+    except Exception as e:
+        print(f"Error scanning port {port}: {e}")
+    #Define the main function to handle user input and start scanning
+    
