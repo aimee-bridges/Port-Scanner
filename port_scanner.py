@@ -2,6 +2,8 @@
 import socket
 #For concurrent scanning of multiple ports
 import threading
+#Import the time for tracking scan duration
+import time
 #Import datetime to timestamp open ports in the log file
 from datetime import datetime
 
@@ -30,21 +32,40 @@ def scan_port(ip, port):
         print(f"Error scanning port {port}: {e}")
 #Define the main function to handle user input and start scanning
 def main():
-    print("Simple Port Scanner")
-    #Ask the user for target IP address
+    print("🔍 Simple Port Scanner")
+
     target_ip = input("Enter IP address to scan: ")
-    #Ask the user for the starting port number
     start_port = int(input("Enter start port: "))
-    #Ask the user for end port number
-    end_port = int(input("Enter start port: "))
-    #Display the scan range to the user
+    end_port = int(input("Enter end port: "))
+
     print(f"\nScanning {target_ip} from port {start_port} to {end_port}...\n")
-    #Loop through the specified port range
+
+    open_ports = []  # List to store open ports
+    start_time = time.time()  # Record start time
+
+    threads = []  # Track all threads
+
     for port in range(start_port, end_port + 1):
-        #Create a new thread per individual port scan
-        thread = threading.Thread(target=scan_port, args=(target_ip, port))
-        #Start the thread(non-blocking)
+        thread = threading.Thread(target=scan_port_with_log, args=(target_ip, port, open_ports))
         thread.start()
+        threads.append(thread)
+
+    for thread in threads:
+        thread.join()  # Wait for all threads to finish
+
+    end_time = time.time()  # Record end time
+    duration = round(end_time - start_time, 2)
+
+    # 🧾 Print summary
+    print("\n📋 Scan Summary")
+    print(f"Target IP: {target_ip}")
+    print(f"Ports scanned: {end_port - start_port + 1}")
+    print(f"Open ports found: {len(open_ports)}")
+    print(f"Time taken: {duration} seconds")
+    if open_ports:
+        print("Open ports:", ", ".join(str(p) for p in open_ports))
+    else:
+        print("No open ports found.")
 #Run main function only if script is executed directly
 if __name__ == "__main__":
     main()
